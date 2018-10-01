@@ -14,6 +14,42 @@ module.exports = function(app) {
     });
 
     app.post("/api/friends", function(req, res) {
+        var bestMatch = {
+            name: "",
+            pic: "",
+            friendDifference: 100
+        };
 
-    })
-}
+        var userData = req.body;
+        var userScores = userData.scores;
+
+        // var userName = userData.name;
+        // var userPic = userData.pic;
+
+        var totalDifference = 0;
+
+        
+        for (var i = 0; i < friends.length - 1; i++) {
+            console.log(friends[i].name);
+            totalDifference = 0;
+
+            for (var j = 0; j < 10; j++) {
+
+                totalDifference += Math.abs(parseInt(userScores[j]) - parseInt(friends[i].scores[j]));
+
+                if (totalDifference <= bestMatch.friendDifference) {
+                    bestMatch.name = friends[i].name;
+                    bestMatch.photo = friends[i].photo;
+                    bestMatch.friendDifference = totalDifference;
+                }
+            }
+        }
+
+        // The push method use to save user's data to the database
+        friends.push(userData);
+
+        //The res.json method will return a JSON data with the user's match which was looped through frieds data array. 
+        res.json(bestMatch);
+
+    });
+};

@@ -183,21 +183,28 @@
 <script>
         $("#submit").on("click", function (event){
                 event.preventDefault();
-                validAnswer;
-                if ($("#name").val().trim() === " "){
-                        alert("Please enter your name.")
-                } else if ($("#pic").val.trim() === " "){
-                        alert("Please enter a link to your photo.")
-                }  else {
+                var answers = [];
+                $("option").each(function() {
+                        answers.push(parseInt($(this).val()));
+                });
 
-                }
+                var userInfo = {
+                        name: $("#name").val().trim(),
+                        picture: $("#pic").val(),
+                        scores: answers
+                };
+
+                app.post('/api/friends', function(req, res) {
+                        $("#name-match").text(data.name);
+                        $("#name-pic").attr("src", data.picture);
+
+                        $("#modal-match").modal("toggle");
+                });
 
                 
 
-        })
+        });
 
 
 </script>
 
-<!-- * A GET Route to `/survey` which should display the survey page.
-   * A default, catch-all route that leads to `home.html` which displays the home page. 
